@@ -66,6 +66,7 @@
 					   },
 					   error: function(data){
 						   //console.log("Error");
+						   //console.log(data[0]);
 					   }
 				  });
 		   }
@@ -79,7 +80,7 @@
 		 var getSrc = function(){
 			var rdn = Math.floor(Math.random() * 1000000000000);
 			var src = settings.url + "/api/video/?key="+ settings.apiKey + "&cam=" + camera;
-			src+= src + "&resolution=" + getDimenssions() + "&" + rdn;
+			src= src + "&resolution=" + getDimenssions() + "&" + rdn;
 			return src;
 		}
 		
@@ -103,9 +104,25 @@
 			 
 				 //Adjusting Height and Width
 				 if(!conf.ratio){
+					 //Displaying panoramic video
+					  var result = $(this).width() / $(this).height();
+						if(result < 7 && result > 2)
+						{
+							$(this).attr('width','100%')
+
+							if($(this).height() > base.height())
+							{
+								 $(this).css({'height': base.height() + "px"});
+						 	}
+							
+						 $(this).css("margin-top", ( base.height() - $(this).height() ) / 2+base.scrollTop() + "px");
+						 $(this).css("margin-left", ( base.width() - $(this).width() ) / 2+base.scrollLeft() + "px");
+
+						}else{
+								$(this).css({'width':'100%','height':'100%'});							
+						}
 					 
-					 $(this).css({'width':'100%','height':'100%'});
-					 
+
 				 }else{
 					 
 						 if($(this).height() > base.height()){
