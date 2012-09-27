@@ -1,4 +1,5 @@
 Getting started with 3xCLOUD Plugin
+====================================
 
 Link files
 Add these items to the <head> of your document. This will link jQuery and the 3xCLOUD plugin into your webpage.
