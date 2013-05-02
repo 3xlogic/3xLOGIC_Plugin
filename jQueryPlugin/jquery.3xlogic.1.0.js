@@ -44,7 +44,7 @@
 				 {
 				   if(conf.caption)
 				   {
-						  $.getJSON(settings.url + "/api/info/?callback=?",
+						  $.getJSON(settings.url + "info/?callback=?",
 							   { 
 									  key: settings.apiKey,
 									  cam: camera,
@@ -53,7 +53,6 @@
 							   {
 									//Camera Name;
 									var label = $("<label>").text(data[0].name);
-									
 									base.css({'position':'relative'});
 									
 									$(label).appendTo(base);
@@ -122,7 +121,7 @@
 					var rdn = Math.floor(Math.random() * 1000000000000);
 					var camData = getCamera();
 					var src = settings.url        + 
-							  "/api/video/?key="  + 
+							  "video/?key="  + 
 							  settings.apiKey     + 
 							  "&cam="             +
 							  camData;
@@ -143,7 +142,7 @@
 												   .data('_3xlogic',
 												   {
 													 url: settings.url 		  + 
-														  "/api/video/?key="  + 
+														  "video/?key="  +
 														  settings.apiKey     + 
 														  "&cam="             + 
 														  camera,
@@ -224,7 +223,7 @@
 					 });
 				 }
 							 
-				 var loader = $("<img src='"+ settings.url +"/resources/img/3xloader.png'/>").css({'width':'100%','height':'100%'});
+				 var loader = $("<img src='"+ settings.url +"img/3xloader.png'/>").css({'width':'100%','height':'100%'});
 				 $(base).html(loader)
 						.delay(1000)
 						.queue(
@@ -234,6 +233,7 @@
 								addUpdates(); 
 								captionSettings();
 							});
+				 
 				return this; 
 		},
 		update: function(camera){
@@ -247,7 +247,7 @@
 			
 			if(object.config.caption){
 				$(self).find("label").hide();
-				$.getJSON(object.setting.url + "/api/info/?callback=?",
+				$.getJSON(object.setting.url + "info/?callback=?",
 				{ 
 				  key: object.setting.apiKey,
 				  cam: camera,
@@ -262,7 +262,7 @@
 			
 			var h = $(this).height();
 			var w = $(this).width();
-			var src = object.setting.url + "/api/video/?key=" + object.setting.apiKey + "&cam=" + camera + "&resolution=" + w + "x" + h;
+			var src = object.setting.url + "video/?key=" + object.setting.apiKey + "&cam=" + camera + "&resolution=" + w + "x" + h;
 			$(this).find("img").attr("src",src);
 			$(this).find("img").one('load',function(){
 				$(this).fadeIn(100);
@@ -283,7 +283,7 @@
 		snapshot: function(){
 			var object = $(this).find("img").data()._3xlogic;
 			var camera = object.cam;
-			var src = object.setting.url + "/api/snapshot/?key=" + object.setting.apiKey + "&cam=" + camera + "&resolution=fullsize";
+			var src = object.setting.url + "snapshot/?key=" + object.setting.apiKey + "&cam=" + camera + "&resolution=fullsize";
 			open(src,"_blank");
 			return this;
 		},
@@ -309,16 +309,20 @@
 					cams[i]._3xcloud({camera:current});
 					cams[i].hide();
 					cams[i].appendTo(self);
+					//if(i!=0){cams[i]._3xcloud('pause');}
+				}
+				/*var currentCamera = setting.cameras[0];
+				$(this)._3xcloud({camera:currentCamera});*/
 						
 				var getNextCamera = function(){
 					var nextTemp = slideObject.camera+1;
 					if(nextTemp > setting.cameras.length-1)
 					{
 						slideObject.camera = 0;
-						return 0;
+						return 0;//setting.cameras[0];
 					}else{
 						slideObject.camera = nextTemp;
-						return nextTemp;
+						return nextTemp;//setting.cameras[nextTemp];
 					}
 				}
 				
@@ -329,7 +333,11 @@
 						cams[o].hide();
 					}
 				}
+				
+				//pauseAllCameras();
+				//cams[0]._3xcloud('resume');
 				cams[0].show();
+				
 				
 				var getPrevCamera = function(){
 					var prevTemp = slideObject.camera-1;
@@ -383,6 +391,7 @@
 						"cursor":"pointer"
 						
 					}).bind('click',function(){
+						//$(self)._3xcloud('update', getNextCamera());
 						goForward();
 					}).hover(function(){
 						$(this).css({'opacity':'0.9'});
@@ -414,6 +423,8 @@
 						"cursor":"pointer"
 						
 					}).bind('click',function(){
+						//$(self)._3xcloud('update', getPrevCamera());
+						//pauseAllCameras();
 						goBack();
 					}).hover(function(){
 						$(this).css({'opacity':'0.9'});
@@ -428,7 +439,8 @@
 						setInterval(function(){
 							var object = $(self).data().slideshow;
 							if(slideObject.run){
-								$(self)._3xcloud('update', getNextCamera());
+								//$(self)._3xcloud('update', getNextCamera());
+								goForward();
 							}
 						}, setting.interval);
 					}
@@ -453,11 +465,12 @@
 	$._3xcloudSettings = {
 		company:"3xlogic",
 		apiKey:'',
-		url:'https://3xcloud.net/webclient',
+		url:'http://10.4.2.4/webclient/api/1.0/',
+		//url:'https://3xcloud.net/webclient/api/1.0/',
 		port:'80',
 		slideShowDefault:{
 			cameras:[],
-			autoRun:true,
+			autoRun:false,
 			interval:8000,
 			showMenu:false,
 			changeOn:'click'
