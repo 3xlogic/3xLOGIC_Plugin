@@ -465,9 +465,8 @@
 	$._3xcloudSettings = {
 		company:"3xlogic",
 		apiKey:'',
-		url:'http://10.4.2.4/webclient/api/1.0/',
-		//url:'https://3xcloud.net/webclient/api/1.0/',
-		port:'80',
+		url:'https://3xcloud.net/webclient/api/1.0/',
+		port:'443',
 		slideShowDefault:{
 			cameras:[],
 			autoRun:false,
