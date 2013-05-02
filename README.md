@@ -40,7 +40,7 @@ $._3xcloudInfo({
 
 3xCLOUD plugin associate cameras by number, because we have to cameras associated with the API Key “MyAPIKey” the first camera is identified with the number 1 and the second camera is identified with the number 2. 
 
-	The following example will put all the concepts together.
+The following example will put all the concepts together.
 	
 ```js
 //Override default configurations
